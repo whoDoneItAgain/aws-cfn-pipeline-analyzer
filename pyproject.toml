@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "cfnpa.version.__version__"}
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[project]
+name = "cfn-pa"
+description = "Analyze Cloudformation Based CodePipeline"
+requires-python = ">=3.13"
+authors = [
+  {email = "12127434+whoDoneItAgain@users.noreply.github.com"},
+  {name = "whoDoneItAgain"},
+]
+license = "GPL-3.0-only"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
+
+dynamic = [
+    "version",
+    "readme"
+]
+
+#dependencies = [
+#    "boto3",
+#    "pyyaml"
+#]
+
+#optional-dependencies = [
+#    "boto3",
+#    "pyyaml"
+#]
+
+[project.scripts]
+cfn-pa = "cfnpa.runner:main"
+
+#[tool.setuptools.package-data]
+#amc = ["data/**/*.yaml"]
+
+[project.urls]
+Homepage = "https://github.com/whoDoneItAgain/aws-cfn-pipeline-analyzer"
