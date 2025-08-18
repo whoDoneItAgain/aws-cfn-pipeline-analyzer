@@ -32,10 +32,9 @@ dynamic = [
     "readme"
 ]
 
-#dependencies = [
-#    "boto3",
-#    "pyyaml"
-#]
+dependencies = [
+    "cfn-lint>=1.38.3",
+]
 
 #optional-dependencies = [
 #    "boto3",

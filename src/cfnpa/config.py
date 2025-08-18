@@ -7,12 +7,12 @@ from cfnpa.helpers import format_json_string
 LOGGER = logging.getLogger("cfnpa")
 
 
-def configure_logging(debug_logging, info_logging):
+def configure_logging(debug, info):
     ch = logging.StreamHandler()
 
-    if debug_logging:
+    if debug:
         LOGGER.setLevel(logging.DEBUG)
-    elif info_logging:
+    elif info:
         LOGGER.setLevel(logging.INFO)
     else:
         LOGGER.setLevel(logging.WARNING)
@@ -37,9 +37,13 @@ class CliArgs:
     def create_parser(self):
         parser = argparse.ArgumentParser(description="Cloudformation Pipeline Analyzer")
 
-        logging_group = parser.add_mutually_exclusive_group()
+        standard = parser.add_argument_group("Standard")
+        advanced = parser.add_argument_group("Advanced / Debugging")
 
-        parser.add_argument(
+        logging_group = advanced.add_mutually_exclusive_group()
+
+        standard.add_argument(
+            "-P",
             "--pipeline",
             action="store",
             type=str,
@@ -47,14 +51,16 @@ class CliArgs:
             help="Path to Template Containing Pipeline",
         )
         logging_group.add_argument(
-            "--debug_logging",
-            action="store_true",
-            help="Enables Debug Level Logging",
-        )
-        logging_group.add_argument(
-            "--info_logging",
+            "-I",
+            "--info",
             action="store_true",
             help="Enables Info Level Logging.",
+        )
+        logging_group.add_argument(
+            "-D",
+            "--debug",
+            action="store_true",
+            help="Enables Debug Level Logging",
         )
 
         return parser
@@ -67,9 +73,9 @@ class ConfigMixIn(CliArgs):
     def __repr__(self):
         return format_json_string(
             {
-                "pipeline_file": self.pipeline_file,
-                "debug_logging": self.debug_logging,
-                "info_logging": self.info_logging,
+                "pipeline": self.pipeline,
+                "debug": self.debug,
+                "info": self.info,
             }
         )
 
@@ -77,13 +83,13 @@ class ConfigMixIn(CliArgs):
         return getattr(self.cli_args, arg_name)
 
     @property
-    def pipeline_file(self):
-        return self._get_argument_value("pipeline_file")
+    def pipeline(self):
+        return self._get_argument_value("pipeline")
 
     @property
-    def debug_logging(self):
-        return self._get_argument_value("debug_logging")
+    def debug(self):
+        return self._get_argument_value("debug")
 
     @property
-    def info_logging(self):
-        return self._get_argument_value("info_logging")
+    def info(self):
+        return self._get_argument_value("info")

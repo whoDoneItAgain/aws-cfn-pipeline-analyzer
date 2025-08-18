@@ -11,7 +11,7 @@ class Runner:
         self.config = config
 
     def cli(self) -> None:
-        configure_logging(self.config.debug_logging, self.config.info_logging)
+        configure_logging(self.config.debug, self.config.info)
 
         LOGGER.info("test info")
         LOGGER.debug("test debug")
